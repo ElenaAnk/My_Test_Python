@@ -11,10 +11,10 @@ def first_start(): #первый запуск для работы с замет�
     with open('notebook_new.json', 'w', encoding='utf8') as outfile:
         json.dump(notebook, outfile, ensure_ascii=False, indent=2)
 
-def new_data(): #добавление записей в блокнот
+def first_new_data(): #добавление первой записи в блокнот
     global f, data, outfile
     note_new = dict()
-    note_new["id"] = random.randint(0, 1000)
+    note_new["id"] = 1
     note_new["title"] = input("Введите заголовок заметки: ")
     note_new["note"] = input("Введите заметку: ")
     note_new["date"] = datetime.now().isoformat(timespec='minutes')
@@ -25,13 +25,25 @@ def new_data(): #добавление записей в блокнот
         json.dump(data, outfile, ensure_ascii=False, indent=2)
     print("Заметка создана успешно")
 
+def new_data(): #добавление записей в блокнот
+    global f, data, outfile
+    note_new = dict()
+    note_new["id"] = create_id()
+    note_new["title"] = input("Введите заголовок заметки: ")
+    note_new["note"] = input("Введите заметку: ")
+    note_new["date"] = datetime.now().isoformat(timespec='minutes')
+    with open('notebook_new.json', encoding='utf8') as f:
+        data = json.load(f)
+    data.append(note_new)
+    with open('notebook_new.json', 'w', encoding='utf8') as outfile:
+        json.dump(data, outfile, ensure_ascii=False, indent=2)
+    print("Заметка создана успешно")
 
 def print_alls_note(): #показывает все заметки на экране
     global f, text
     with open("notebook_new.json", "r", encoding="utf-8") as f:
         text = json.load(f)
         pprint(text)
-
 
 def id_search(): #поиск заметки по id
     global f, data
@@ -121,7 +133,6 @@ def delete_note(): #удаление заметки по id
         with open('notebook_new.json', 'w', encoding='utf-8') as outfile:
             json.dump(data, outfile, ensure_ascii=False, indent=2)
              
-
 def edit_note(): #редактирование заметки по id
     global f, data, outfile
     note_edit = int(input("Введите id заметки, которую хотите отредактировать: "))
@@ -142,4 +153,18 @@ def edit_note(): #редактирование заметки по id
             print("Данный id не найден")     
         with open('notebook_new.json', 'w', encoding='utf-8') as outfile:
             json.dump(data, outfile, ensure_ascii=False, indent=2)
+
+def create_id(): #создание id
+    global f, data
+    with open("notebook_new.json", "r", encoding="utf-8") as f:
+        data = json.load(f)
+        # print(data[-1]["id"])
+        new_id = data[-1]["id"] + 1
+    return new_id    
+
+
+     
+        
+        
+        
 

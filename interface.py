@@ -7,6 +7,7 @@ from functional import note_search
 from functional import date_search
 from functional import delete_note
 from functional import edit_note
+from functional import first_new_data
 
 
 def view_note(): #выбор действия для просмотра заметок
@@ -74,7 +75,7 @@ def welcome(): #главный интерфейс
         if command == "1":
            first_start()
            print("Приложение очищено, теперь можно добавить первую заметку")
-           new_data()
+           first_new_data()
         elif command == "2":
            continue_work()
 
